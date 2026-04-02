@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>创可贴 - IP合规托管与保护专家 | 让每一份创意都被温柔以待</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background: #fef9ef;  /* 米白暖调背景 */
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', system-ui, 'Helvetica Neue', sans-serif;
+            color: #3a5a4e;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+        }
+
+        .app-container {
+            max-width: 420px;
+            width: 100%;
+            margin: 0 auto;
+            background: #fffef8;
+            box-shadow: 0 0 40px rgba(135, 206, 235, 0.12);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .content-wrapper {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            width: 100%;
+        }
+
+        .content-wrapper::-webkit-scrollbar {
+            width: 4px;
+        }
+        .content-wrapper::-webkit-scrollbar-track {
+            background: #f0e7da;
+            border-radius: 4px;
+        }
+        .content-wrapper::-webkit-scrollbar-thumb {
+            background: #87CEEB;
+            border-radius: 4px;
+        }
+
+        /* 头部渐变 - 天蓝色系 #87CEEB 到 #B0E0E6 */
+        .header {
+            background: linear-gradient(135deg, #87CEEB 0%, #B0E0E6 100%);
+            padding: 22px 18px 26px 18px;
+            border-bottom-left-radius: 36px;
+            border-bottom-right-radius: 36px;
+            color: #2c5a4a;
+            width: 100%;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 18px;
+        }
+
+        .logo-img {
+            width: 58px;
+            height: 58px;
+            background: #ffffffdd;
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.04);
+            overflow: hidden;
+        }
+
+        .logo-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .logo-text h1 {
+            font-size: 24px;
+            font-weight: 680;
+            letter-spacing: -0.3px;
+            color: #2c5a4a;
+            margin-bottom: 4px;
+        }
+
+        .logo-text p {
+            font-size: 11px;
+            opacity: 0.75;
+        }
+
+        .slogan {
+            font-size: 12px;
+            background: rgba(255, 250, 235, 0.7);
+            backdrop-filter: blur(4px);
+            display: inline-block;
+            padding: 5px 14px;
+            border-radius: 40px;
+            color: #3a6b5c;
+            font-weight: 500;
+        }
+
+        .page {
+            display: none;
+            padding: 20px 18px 28px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .page.active-page {
+            display: block;
+            animation: fadeSlide 0.25s ease;
+        }
+        @keyframes fadeSlide {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 620;
+            margin: 16px 0 14px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #3a6b5c;
+        }
+        .section-title i {
+            color: #87CEEB;
+            font-size: 20px;
+        }
+        .first-title {
+            margin-top: 0;
+        }
+
+        .func-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .func-card {
+            background: #ffffff;
+            border-radius: 32px;
+            padding: 20px 10px;
+            box-shadow: 0 8px 20px rgba(135, 206, 235, 0.1);
+            border: 1px solid #d4ecf2;
+            transition: all 0.2s ease;
+            text-align: center;
+            cursor: pointer;
+        }
+        .func-card:active {
+            transform: scale(0.97);
+        }
+
+        .func-icon {
+            font-size: 38px;
+            color: #87CEEB;
+            margin-bottom: 12px;
+        }
+        .func-card h3 {
+            font-size: 16px;
+            font-weight: 640;
+            margin-bottom: 6px;
+            color: #487463;
+        }
+        .func-card p {
+            font-size: 11px;
+            color: #819e8e;
+            line-height: 1.35;
+        }
+        .feature-tag {
+            font-size: 10px;
+            background: #f0f9fc;
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 40px;
+            margin-top: 10px;
+            color: #5a9aa8;
+        }
+
+        .membership-card {
+            background: #fffdf8;
+            border-radius: 32px;
+            padding: 18px;
+            margin: 14px 0;
+            border: 1px solid #d4ecf2;
+        }
+        .price-tag {
+            background: #d4ecf2;
+            color: #3e6b5c;
+            padding: 5px 14px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 13px;
+        }
+        .price-tag.light {
+            background: #f8efdf;
+            color: #b27d4a;
+        }
+
+        .btn-primary {
+            background: #87CEEB;
+            border: none;
+            color: #2c5a4a;
+            padding: 12px 0;
+            border-radius: 60px;
+            font-weight: 600;
+            width: 100%;
+            margin-top: 12px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .btn-primary:active {
+            background: #7ac0dd;
+            transform: scale(0.98);
+        }
+        .btn-outline {
+            background: transparent;
+            border: 1px solid #87CEEB;
+            padding: 8px 16px;
+            border-radius: 40px;
+            font-weight: 500;
+            color: #4e7b6a;
+            cursor: pointer;
+        }
+
+        .b-card, .radar-badge, .note, .contract-card {
+            background: #fefbf5;
+            border-radius: 28px;
+            padding: 16px;
+            margin: 14px 0;
+            border: 1px solid #e5f0f2;
+            cursor: pointer;
+        }
+        .radar-badge {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: #fefaf2;
+        }
+        .note {
+            border-left: 5px solid #87CEEB;
+            background: #fffcf6;
+        }
+        .contract-card {
+            background: #ffffff;
+        }
+
+        .bottom-tab {
+            background: #fffef9;
+            border-top: 1px solid #f0e9dd;
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 16px 14px;
+            width: 100%;
+            position: sticky;
+            bottom: 0;
+            z-index: 10;
+            backdrop-filter: blur(12px);
+        }
+        .tab-item {
+            text-align: center;
+            font-size: 11px;
+            color: #c2cfc4;
+            transition: all 0.2s;
+            cursor: pointer;
+            flex: 1;
+            padding: 4px 0;
+        }
+        .tab-item.active {
+            color: #87CEEB;
+            font-weight: 500;
+        }
+        .tab-item i {
+            font-size: 22px;
+            margin-bottom: 4px;
+            display: block;
+        }
+
+        .share-fab {
+            position: fixed;
+            bottom: 85px;
+            right: calc(50% - 190px);
+            z-index: 20;
+            background: #87CEEB;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 20px rgba(135, 206, 235, 0.3);
+            cursor: pointer;
+        }
+        .share-fab i {
+            font-size: 24px;
+            color: #2c5a4a;
+        }
+        @media (max-width: 450px) {
+            .share-fab { right: 20px; bottom: 80px; }
+        }
+
+        .detail-page {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            max-width: 420px;
+            right: 0;
+            margin: 0 auto;
+            background: #fffef7;
+            min-height: 100vh;
+            z-index: 300;
+            display: none;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+        .detail-page.active-detail {
+            display: flex;
+        }
+        .detail-header {
+            background: #87CEEB;
+            padding: 20px 20px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        .back-btn {
+            background: rgba(255,250,235,0.8);
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 18px;
+            color: #487463;
+        }
+        .detail-header h2 {
+            font-size: 22px;
+            font-weight: 620;
+            color: #2c5a4a;
+        }
+        .detail-content {
+            padding: 28px 22px;
+        }
+        .feature-icon-large {
+            font-size: 68px;
+            color: #87CEEB;
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        .feature-desc {
+            background: #fefaf2;
+            border-radius: 32px;
+            padding: 22px;
+            margin: 16px 0;
+            line-height: 1.6;
+            color: #557a6a;
+        }
+
+        .profile-stats {
+            display: flex;
+            gap: 14px;
+            margin: 20px 0;
+        }
+        .stat-box {
+            background: #fbf6ec;
+            border-radius: 28px;
+            padding: 12px;
+            text-align: center;
+            flex: 1;
+            cursor: pointer;
+        }
+        .member-badge {
+            background: #f7ede0;
+            border-radius: 40px;
+            padding: 6px 16px;
+            display: inline-block;
+            font-weight: 500;
+            color: #b27d4a;
+            cursor: pointer;
+        }
+
+        .modal-mask {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.4);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-container {
+            max-width: 300px;
+            width: 80%;
+            background: #fffef7;
+            border-radius: 48px;
+            padding: 24px;
+            text-align: center;
+        }
+        #qrcode {
+            display: flex;
+            justify-content: center;
+            margin: 16px auto;
+        }
+        .close-modal {
+            background: #e7ede8;
+            border: none;
+            padding: 8px 24px;
+            border-radius: 40px;
+            margin-top: 16px;
+            cursor: pointer;
+            color: #487463;
+        }
+
+        [data-detail] {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div class="app-container">
+    <div class="header">
+        <div class="logo-area">
+            <div class="logo-img">
+                <img id="appLogo" src="logo_project.png" alt="创可贴" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'%3E%3Crect width=\'100\' height=\'100\' fill=\'%2387CEEB\' rx=\'28\'/%3E%3Ctext x=\'50\' y=\'72\' font-size=\'52\' text-anchor=\'middle\' fill=\'%232c5a4a\'%3E🩹%3C/text%3E%3C/svg%3E';">
+            </div>
+            <div class="logo-text">
+                <h1>“创”可贴</h1>
+                <p>独立插画 · 盲盒设计IP合规托管</p>
+            </div>
+        </div>
+        <div class="slogan">
+            <i class="fas fa-feather-alt"></i> 云端法务部 · 让创意安然生长
+        </div>
+    </div>
+
+    <div class="content-wrapper">
+        <!-- 首页 - 天蓝色主题 -->
+        <div id="page-home" class="page active-page">
+            <div class="section-title first-title"><i class="fas fa-seedling"></i> <span>创意守护矩阵</span></div>
+            <div class="func-grid">
+                <div class="func-card" data-detail="cunzheng"><div class="func-icon"><i class="fas fa-fingerprint"></i></div><h3>灵感存证</h3><p>区块链秒级存证·司法有效</p><div class="feature-tag">永久不可篡改</div></div>
+                <div class="func-card" data-detail="tijian"><div class="func-icon"><i class="fas fa-heartbeat"></i></div><h3>IP健康度体检</h3><p>智能排查商标/著作权冲突</p><div class="feature-tag">商用前预检</div></div>
+                <div class="func-card" data-detail="wenshu"><div class="func-icon"><i class="fas fa-file-signature"></i></div><h3>文书工坊</h3><p>填空式合同·律师审核模板</p><div class="feature-tag">授权/委托/联名协议</div></div>
+                <div class="func-card" data-detail="leida"><div class="func-icon"><i class="fas fa-satellite-dish"></i></div><h3>侵权雷达</h3><p>7×24h AI全网监测·自动预警</p><div class="feature-tag">淘宝/小红书/闲鱼/拼多多</div></div>
+            </div>
+            <div class="section-title"><i class="fas fa-gem"></i> <span>陪伴式分级服务</span></div>
+            <div class="membership-card"><div style="display:flex; justify-content:space-between;"><span>🌱 灵感萌芽版</span><span class="price-tag light">¥0/月</span></div><ul style="margin:12px 0 0 20px; font-size:12px;"><li>✓ 每月5次区块链存证</li><li>✓ 合同模板免费查看</li><li>✓ 基础IP风险体检</li></ul></div>
+            <div class="membership-card"><div style="display:flex; justify-content:space-between;"><span style="background:#d4ecf2; padding:2px 14px; border-radius:30px;">✨ 灵感会员</span><span>月卡¥29 | 年卡¥259</span></div><ul style="margin:12px 0 0 20px; font-size:12px;"><li>✅ 无限次存证+优先司法对接</li><li>✅ 智能合同生成+律师审核</li><li>✅ 每月10次全网监测</li></ul><button class="btn-primary" data-detail="vip">开通会员·守护创作</button></div>
+            <div class="b-card" data-detail="b端托管"><i class="fas fa-building"></i> <strong>小微工作室·年度IP托管</strong><div style="margin:6px 0;">¥9800起 · 专属法务+全IP存证管理</div><button class="btn-outline" style="width:100%; margin-top:8px;" data-detail="b端托管">预约咨询</button></div>
+            <div class="radar-badge" data-detail="radar-demo"><i class="fas fa-chart-line" style="font-size:30px; color:#87CEEB;"></i><div><strong>🛡️ 侵权雷达·实时守护中</strong><div style="font-size:12px;">已覆盖2400+设计师作品，今日发现疑似侵权线索7条</div></div></div>
+            <div class="note" data-detail="community"><i class="fas fa-hands-helping"></i> <strong>创作者暖房 · 不止于保护</strong><br>版权沙龙、商业对接，已有2400+插画师&潮玩设计师加入</div>
+            <div style="display:flex; gap:12px; margin:20px 0 12px;"><div class="stat-box" data-detail="stats1"><div style="font-weight:800; font-size:20px; color:#87CEEB;">570w+</div><div>创作者群体</div></div><div class="stat-box" data-detail="stats2"><div style="font-weight:800; font-size:20px; color:#87CEEB;">85%</div><div>曾遭遇侵权</div></div><div class="stat-box" data-detail="stats3"><div style="font-weight:800; font-size:20px; color:#87CEEB;">¥29/月</div><div>会员起售价</div></div></div>
+        </div>
+
+        <!-- IP保护页 -->
+        <div id="page-ip" class="page">
+            <div class="section-title first-title"><i class="fas fa-shield-heart"></i> <span>IP保护工具箱</span></div>
+            <div class="func-card" style="text-align:left; margin-bottom:12px;" data-detail="cunzheng"><div style="display:flex; gap:12px;"><i class="fas fa-fingerprint" style="font-size:30px; color:#87CEEB;"></i><div><h3>灵感存证</h3><p>手稿/设计图区块链存证</p></div></div></div>
+            <div class="func-card" style="text-align:left; margin-bottom:12px;" data-detail="tijian"><div style="display:flex; gap:12px;"><i class="fas fa-heartbeat" style="font-size:30px; color:#87CEEB;"></i><div><h3>IP健康度体检</h3><p>商标/著作权风险排查</p></div></div></div>
+            <div class="func-card" style="text-align:left; margin-bottom:12px;" data-detail="leida"><div style="display:flex; gap:12px;"><i class="fas fa-satellite-dish" style="font-size:30px; color:#87CEEB;"></i><div><h3>侵权雷达</h3><p>全平台AI监测 7x24h</p></div></div></div>
+            <div class="func-card" style="text-align:left;" data-detail="weiquan"><div style="display:flex; gap:12px;"><i class="fas fa-gavel" style="font-size:30px; color:#87CEEB;"></i><div><h3>维权处置</h3><p>投诉代理+律师转介</p></div></div></div>
+            <button class="btn-primary" data-detail="protect-now" style="margin-top:28px;">立即开启全流程保护</button>
+        </div>
+
+        <!-- 文书工坊页 -->
+        <div id="page-contract" class="page">
+            <div class="section-title first-title"><i class="fas fa-feather"></i> <span>智能合同工坊</span></div>
+            <div class="contract-card" data-detail="contract1"><h4>📄 插画商用授权书</h4><p>授权范围、期限、费用一键生成</p></div>
+            <div class="contract-card" data-detail="contract2"><h4>✍️ 委托设计合同</h4><p>修改次数、版权归属、尾款条款</p></div>
+            <div class="contract-card" data-detail="contract3"><h4>🧸 盲盒联名/众筹协议</h4><p>IP授权边界与分成比例</p></div>
+            <div class="contract-card" data-detail="contract4"><h4>🏪 平台入驻/分销协议</h4><p>分成结算、使用权限规范</p></div>
+            <button class="btn-outline" style="width:100%; margin-top:16px;" data-detail="custom-contract">+ 自定义生成合同</button>
+            <div class="note" data-detail="contract-note"><i class="fas fa-balance-scale"></i> 所有模板由合作知识产权律师审核</div>
+        </div>
+
+        <!-- 我的页面 -->
+        <div id="page-profile" class="page">
+            <div style="text-align:center; margin-bottom:20px;"><div style="background:#f7efe3; width:80px; height:80px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center;"><i class="fas fa-palette" style="font-size:42px; color:#87CEEB;"></i></div><h3>创作旅人·小可</h3><div class="member-badge" data-detail="member-status"><i class="fas fa-star"></i> 普通会员 · 体验中</div></div>
+            <div class="profile-stats"><div class="stat-box" data-detail="my-cunzheng"><i class="fas fa-database"></i><br><strong>23</strong><br>存证作品</div><div class="stat-box" data-detail="my-jiance"><i class="fas fa-chart-line"></i><br><strong>5</strong><br>监测报告</div><div class="stat-box" data-detail="my-contract"><i class="fas fa-file-signature"></i><br><strong>3</strong><br>合同生成</div></div>
+            <div class="b-card" data-detail="upgrade-vip"><div style="display:flex; justify-content:space-between;"><span><i class="fas fa-crown"></i> 我的会员</span><span>未开通</span></div><button class="btn-primary" data-detail="upgrade-vip">升级年卡会员 ¥259</button></div>
+            <div class="contract-card" data-detail="cunzheng-record"><i class="fas fa-history"></i> 存证记录 & 证书管理</div>
+            <div class="contract-card" data-detail="alert-list"><i class="fas fa-bell"></i> 侵权预警通知 (3条未读)</div>
+            <div class="contract-card" data-detail="customer-service"><i class="fas fa-headset"></i> 客服与帮助</div>
+            <div class="note" data-detail="privacy-note"><i class="fas fa-lock"></i> 银行级加密，绝不用于AI训练</div>
+        </div>
+    </div>
+
+    <div class="bottom-tab">
+        <div class="tab-item active" data-page="home"><i class="fas fa-home"></i><span>首页</span></div>
+        <div class="tab-item" data-page="ip"><i class="fas fa-shield-alt"></i><span>IP保护</span></div>
+        <div class="tab-item" data-page="contract"><i class="fas fa-file-contract"></i><span>文书工坊</span></div>
+        <div class="tab-item" data-page="profile"><i class="fas fa-user"></i><span>我的</span></div>
+    </div>
+
+    <div class="share-fab" id="shareBtn"><i class="fas fa-share-alt"></i></div>
+    <div id="qrcodeModal" class="modal-mask"><div class="modal-container"><h3><i class="fas fa-qrcode"></i> 分享创可贴</h3><div id="qrcode"></div><p style="margin:12px 0 0;">扫码体验·守护创意</p><button class="close-modal" id="closeModalBtn">关闭</button></div></div>
+</div>
+
+<!-- 核心详情页 -->
+<div id="detail-cunzheng" class="detail-page"><div class="detail-header"><div class="back-btn" onclick="closeDetail('cunzheng')"><i class="fas fa-arrow-left"></i></div><h2>灵感存证</h2></div><div class="detail-content"><div class="feature-icon-large"><i class="fas fa-fingerprint"></i></div><div class="feature-desc">📌 区块链存证 · 每份创作都值得被见证<br>上传手稿/源文件，生成唯一哈希上链，秒级获取司法有效证书。永久保存，侵权时直接作为证据。</div><div class="action-buttons"><button class="btn-primary" data-detail="start-cunzheng">立即存证</button><button class="btn-outline" data-detail="my-cunzheng-list">我的存证</button></div></div></div>
+<div id="detail-tijian" class="detail-page"><div class="detail-header"><div class="back-btn" onclick="closeDetail('tijian')"><i class="fas fa-arrow-left"></i></div><h2>IP健康度体检</h2></div><div class="detail-content"><div class="feature-icon-large"><i class="fas fa-heartbeat"></i></div><div class="feature-desc">🔍 商用前风险预检<br>商标库+著作权库智能比对，告知冲突风险及修改建议，避免侵权赔偿。</div><div class="action-buttons"><button class="btn-primary" data-detail="start-tijian">开始体检</button><button class="btn-outline" data-detail="tijian-history">历史报告</button></div></div></div>
+<div id="detail-wenshu" class="detail-page"><div class="detail-header"><div class="back-btn" onclick="closeDetail('wenshu')"><i class="fas fa-arrow-left"></i></div><h2>文书工坊</h2></div><div class="detail-content"><div class="feature-icon-large"><i class="fas fa-file-signature"></i></div><div class="feature-desc">📄 智能合同生成器<br>填空式生成插画授权/委托设计/联名协议，律师审核模板，支持电子签章。</div><div class="action-buttons"><button class="btn-primary" data-detail="create-contract">生成合同</button><button class="btn-outline" data-detail="lawyer-custom">律师定制</button></div></div></div>
+<div id="detail-leida" class="detail-page"><div class="detail-header"><div class="back-btn" onclick="closeDetail('leida')"><i class="fas fa-arrow-left"></i></div><h2>侵权雷达</h2></div><div class="detail-content"><div class="feature-icon-large"><i class="fas fa-satellite-dish"></i></div><div class="feature-desc">🚨 AI全网监测 · 让侵权无处遁形<br>7×24小时监测淘宝/小红书/闲鱼/拼多多，相似度识别>95%，发现即推送报告。</div><div class="action-buttons"><button class="btn-primary" data-detail="start-leida">开启监测</button><button class="btn-outline" data-detail="leida-report">监测报告</button></div></div></div>
+<div id="detail-vip" class="detail-page"><div class="detail-header"><div class="back-btn" onclick="closeDetail('vip')"><i class="fas fa-arrow-left"></i></div><h2>灵感会员</h2></div><div class="detail-content"><div class="feature-icon-large"><i class="fas fa-crown"></i></div><div class="feature-desc">✨ 无限次存证 · 合同律师审核 · 全网监测<br>月卡¥29，年卡¥259（每天不到0.71元），让创作无后顾之忧。</div><div class="action-buttons"><button class="btn-primary" data-detail="pay-vip">立即开通</button></div></div></div>
+
+<script>
+    // 全局详情页管理
+    function showDetail(detailId) {
+        let target = document.getElementById(`detail-${detailId}`);
+        if (!target) {
+            const fallback = document.createElement('div');
+            fallback.id = `detail-${detailId}`;
+            fallback.className = 'detail-page';
+            fallback.innerHTML = `<div class="detail-header"><div class="back-btn" onclick="closeDetail('${detailId}')"><i class="fas fa-arrow-left"></i></div><h2>✨ 创意守护</h2></div><div class="detail-content"><div class="feature-icon-large"><i class="fas fa-hand-sparkles"></i></div><div class="feature-desc">更多贴心功能即将上线<br>您的每一份创意都值得被温柔保护。</div><div class="action-buttons"><button class="btn-primary" onclick="closeDetail('${detailId}')">返回</button></div></div>`;
+            document.body.appendChild(fallback);
+            target = fallback;
+        }
+        target.classList.add('active-detail');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeDetail(detailId) {
+        const el = document.getElementById(`detail-${detailId}`);
+        if (el) el.classList.remove('active-detail');
+        document.body.style.overflow = '';
+    }
+
+    // 绑定所有可点击元素
+    document.querySelectorAll('[data-detail]').forEach(el => {
+        el.removeEventListener('click', el._listener);
+        const handler = (e) => {
+            e.stopPropagation();
+            const id = el.getAttribute('data-detail');
+            if (id) showDetail(id);
+        };
+        el.addEventListener('click', handler);
+        el._listener = handler;
+    });
+
+    // 页面切换
+    const pages = {
+        home: document.getElementById('page-home'),
+        ip: document.getElementById('page-ip'),
+        contract: document.getElementById('page-contract'),
+        profile: document.getElementById('page-profile')
+    };
+    const tabs = document.querySelectorAll('.tab-item');
+    function switchPage(pageId) {
+        Object.values(pages).forEach(p => p.classList.remove('active-page'));
+        pages[pageId].classList.add('active-page');
+        tabs.forEach(t => {
+            if (t.getAttribute('data-page') === pageId) t.classList.add('active');
+            else t.classList.remove('active');
+        });
+        document.querySelector('.content-wrapper').scrollTop = 0;
+    }
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            const pg = tab.getAttribute('data-page');
+            if (pg && pages[pg]) switchPage(pg);
+        });
+    });
+
+    // 分享二维码
+    const modal = document.getElementById('qrcodeModal');
+    const closeModal = document.getElementById('closeModalBtn');
+    const shareBtn = document.getElementById('shareBtn');
+    function genQR(url) {
+        const container = document.getElementById('qrcode');
+        container.innerHTML = '';
+        new QRCode(container, { text: url, width: 160, height: 160, colorDark: "#87CEEB" });
+    }
+    shareBtn.onclick = () => {
+        let url = window.location.href;
+        if (url.startsWith('file://')) url = 'https://chuangketie.demo.com/share';
+        genQR(url);
+        modal.style.display = 'flex';
+    };
+    closeModal.onclick = () => modal.style.display = 'none';
+    modal.onclick = (e) => { if (e.target === modal) modal.style.display = 'none'; };
+</script>
+</body>
+</html>
